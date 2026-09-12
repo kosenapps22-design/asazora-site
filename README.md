@@ -10,6 +10,7 @@ https://www.addness.com/goals/8196d391-45fb-4bd3-867c-c09d6069d695
 | --- | --- | --- |
 | `index.html` | `https://asazora.com/` | LP。二度寝しない側に寄せた本文＋2つの導線（テスト参加／有料版のお知らせ） |
 | `privacy/index.html` | `https://asazora.com/privacy/` | プライバシーポリシー。原稿は `../policy/privacy-policy-draft.md` |
+| `terms/index.html` | `https://asazora.com/terms/` | 利用規約。**先頭に「asazora は目覚ましではない」を置いている**（通知が遅れて起きられなくても責任を負わないこと）。アプリの登録画面の同意文からリンクされている |
 | `confirmed/index.html` | `https://asazora.com/confirmed/` | Supabase の確認メール・再設定メールをPCで開かれた時の受け皿 |
 | `CNAME` | — | GitHub Pages に独自ドメインを教えるファイル。中身は `asazora.com` の1行だけ |
 | `.nojekyll` | — | GitHub Pages の Jekyll 処理を止める（素のHTMLをそのまま出す） |
