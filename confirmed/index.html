@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登録が完了しました — asazora</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%2300FFFF' font-family='sans-serif'%3E10%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#000000;
+  --accent:#00FFFF;
+  --text:#FFFFFF;
+  --text-dim:rgba(255,255,255,.62);
+  --text-faint:rgba(255,255,255,.38);
+  --glass:rgba(255,255,255,.06);
+  --glass-border:rgba(255,255,255,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 24px;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  line-height:1.85;
+  font-size:16px;
+  letter-spacing:.02em;
+}
+body::before{
+  content:"";
+  position:fixed;
+  top:-30vh;left:50%;
+  width:120vw;height:80vh;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse at center, rgba(0,255,255,.13), transparent 62%);
+  pointer-events:none;
+}
+.box{position:relative;width:100%;max-width:460px;text-align:center}
+.mark{
+  width:64px;height:64px;
+  margin:0 auto 28px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:var(--glass);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  color:var(--accent);
+}
+h1{font-size:clamp(24px,6.4vw,30px);line-height:1.45;margin:0 0 20px;font-weight:700}
+p{color:var(--text-dim);margin:0 0 18px;text-align:left}
+p.center{text-align:center}
+strong{color:var(--text);font-weight:600}
+.btn{
+  display:block;
+  padding:20px 24px;
+  margin-top:28px;
+  border-radius:16px;
+  background:var(--accent);
+  color:#000;
+  text-decoration:none;
+  font-weight:700;
+  font-size:17px;
+}
+.hint{font-size:13px;color:var(--text-faint);margin-top:16px;text-align:center}
+.foot{margin-top:44px;font-size:13px;color:var(--text-faint);text-align:center}
+.foot a{color:var(--text-dim);text-decoration:none;border-bottom:1px solid var(--glass-border)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="box">
+
+  <!-- 既定：新規登録の確認が済んだ場合 -->
+  <div id="signup">
+    <div class="mark">✓</div>
+    <h1>登録が完了しました</h1>
+    <p>メールの確認が済みました。この画面を閉じて、<strong>スマホの asazora に戻ってログイン</strong>してください。</p>
+    <p>パソコンでこのページを開いた場合、ここから先はアプリの中だけで進みます。もう一度メールを開く必要はありません。</p>
+    <a class="btn" id="open-signup" href="asazora://">asazora を開く</a>
+    <p class="hint">スマホで開いた場合は、自動でアプリに戻ります。戻らなければ上のボタンから。</p>
+  </div>
+
+  <!-- パスワード再設定のリンクをパソコンで開いた場合 -->
+  <div id="recovery" hidden>
+    <div class="mark">！</div>
+    <h1>スマホで開いてください</h1>
+    <p>パスワードの再設定は、<strong>asazora アプリの中でだけ</strong>行えます。パソコンのブラウザでは新しいパスワードを決められません。</p>
+    <p>お手数ですが、<strong>スマホで、いま開いたメールのリンクをもう一度開いてください。</strong>アプリが立ち上がり、新しいパスワードを決める画面になります。</p>
+    <a class="btn" id="open-recovery" href="asazora://">asazora を開く</a>
+    <p class="hint">スマホで開いた場合は、自動で新しいパスワードを決める画面に進みます。進まなければ上のボタンから。</p>
+  </div>
+
+  <!-- リンクが期限切れ・不正だった場合 -->
+  <div id="expired" hidden>
+    <div class="mark">！</div>
+    <h1>このリンクは使えません</h1>
+    <p>安全のため、メールのリンクには期限があります。期限が切れているか、すでに使われたリンクです。</p>
+    <p><strong>asazora アプリを開いて、確認メールまたは再設定リンクを送り直してください。</strong></p>
+    <a class="btn" href="asazora://">asazora を開く</a>
+  </div>
+
+  <div class="foot">
+    <a href="/">asazora について</a>　·　<a href="mailto:support@asazora.com">support@asazora.com</a>
+  </div>
+</div>
+
+<script>
+/*
+ * Supabase の確認メール・再設定メールは、リンクを開いた先の URL に結果を付けて返す。
+ * 成功時はフラグメント（#access_token=... &type=signup|recovery）、
+ * 失敗時は #error=... か ?error=... のどちらか。どちらも見る。
+ *
+ * ここは「戻り先をこのページに向けて、スマホではアプリへ自動転送する」案（2026-09-12 決定）の
+ * 転送側。スマホは今までと同じ体験（アプリが開く）、PCは真っ白にならずこの案内が残る。
+ *
+ * **再設定はフラグメントをそのままアプリへ渡すことが必須。**トークンがアプリに渡らないと
+ * セッションが張れず、新しいパスワードを決められない。アプリ側 (`features/auth/deepLink.ts`)
+ * はクエリとフラグメントの両方を読む作りなので、`#` の中身をそのまま付ければ通る。
+ *
+ * トークンは画面に出さない。読み終えたらすぐ URL から消す（履歴・共有からの漏れを防ぐ）。
+ */
+(function () {
+  var rawHash = (location.hash || '').replace(/^#/, '');
+  var hash = new URLSearchParams(rawHash);
+  var query = new URLSearchParams(location.search || '');
+  var get = function (key) { return hash.get(key) || query.get(key); };
+
+  var error = get('error') || get('error_code');
+  var type = get('type');
+
+  var show = function (id) {
+    ['signup', 'recovery', 'expired'].forEach(function (name) {
+      document.getElementById(name).hidden = name !== id;
+    });
+  };
+
+  var forwardTo = null;
+
+  if (error) {
+    // 期限切れ・使用済み。転送はしない（種別が付かないことがあり、誤った画面へ飛ばしうる）
+    show('expired');
+  } else if (type === 'recovery') {
+    show('recovery');
+    forwardTo = 'asazora:///reset-password' + (rawHash ? '#' + rawHash : '');
+  } else {
+    show('signup');
+    forwardTo = 'asazora:///';
+  }
+
+  // 自動転送が働かなかったときの逃げ道。ボタンの行き先も同じURLにしておく
+  if (forwardTo) {
+    var button = document.getElementById(type === 'recovery' ? 'open-recovery' : 'open-signup');
+    if (button) button.href = forwardTo;
+  }
+
+  // URL からトークンを落とす。表示の切り替えと転送先の組み立てが済んだ後にやる
+  if (location.hash || location.search) {
+    history.replaceState(null, '', location.pathname);
+  }
+
+  /*
+   * スマホならアプリが開く。PC では何も起きず、上の案内がそのまま残る。
+   * 少し待つのは、画面の描画を先に終わらせるため（転送が失敗した時に白い画面を見せない）。
+   */
+  if (forwardTo) {
+    window.setTimeout(function () { location.href = forwardTo; }, 350);
+  }
+})();
+</script>
+</body>
+</html>

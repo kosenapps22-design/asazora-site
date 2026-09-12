@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>asazora — 二度寝しない朝の10秒</title>
+<meta name="description" content="目覚ましが鳴ったあと、二度寝せずにベッドを出るための10秒。起きた直後に考えることは何もありません。">
+<meta property="og:title" content="asazora — 二度寝しない朝の10秒">
+<meta property="og:description" content="目覚ましが鳴ったあと、二度寝せずにベッドを出るための10秒。起きた直後に考えることは何もありません。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://asazora.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%2300FFFF' font-family='sans-serif'%3E10%3C/text%3E%3C/svg%3E">
+<style>
+/* デザイントークンはアプリの app/src/constants/theme.ts に合わせる（変更禁止の取り決め） */
+:root{
+  --bg:#000000;
+  --accent:#00FFFF;
+  --text:#FFFFFF;
+  --text-dim:rgba(255,255,255,.62);
+  --text-faint:rgba(255,255,255,.38);
+  --glass:rgba(255,255,255,.06);
+  --glass-border:rgba(255,255,255,.12);
+  --maxw:720px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  line-height:1.85;
+  font-size:16px;
+  letter-spacing:.02em;
+  overflow-x:hidden;
+}
+/* 画面の上に、朝の空のような淡い光を1つだけ置く */
+body::before{
+  content:"";
+  position:fixed;
+  top:-30vh;left:50%;
+  width:120vw;height:80vh;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse at center, rgba(0,255,255,.13), transparent 62%);
+  pointer-events:none;
+  z-index:0;
+}
+main,header,footer{position:relative;z-index:1}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* ヒーロー */
+header{padding:16vh 0 10vh}
+.eyebrow{
+  color:var(--accent);
+  font-size:13px;
+  letter-spacing:.22em;
+  margin:0 0 20px;
+  font-weight:600;
+}
+h1{
+  font-size:clamp(30px,7.4vw,46px);
+  line-height:1.35;
+  margin:0 0 24px;
+  font-weight:700;
+  letter-spacing:-.01em;
+}
+h1 .cy{color:var(--accent)}
+.lede{font-size:clamp(16px,4.2vw,18px);color:var(--text-dim);margin:0 0 40px}
+.lede strong{color:var(--text);font-weight:600}
+
+/* ボタン */
+.btn{
+  display:block;
+  width:100%;
+  padding:22px 24px;
+  border-radius:16px;
+  text-decoration:none;
+  text-align:center;
+  font-weight:700;
+  font-size:17px;
+  border:1px solid transparent;
+  transition:transform .15s ease, opacity .15s ease;
+}
+.btn:active{transform:scale(.985)}
+.btn-primary{background:var(--accent);color:#000}
+.btn-ghost{
+  background:var(--glass);
+  border-color:var(--glass-border);
+  color:var(--text);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+}
+.btn + .btn{margin-top:12px}
+.btn-note{
+  display:block;
+  margin:14px 2px 0;
+  font-size:13px;
+  color:var(--text-faint);
+  line-height:1.7;
+}
+
+/* セクション */
+section{padding:8vh 0}
+h2{
+  font-size:clamp(21px,5.4vw,27px);
+  line-height:1.5;
+  margin:0 0 28px;
+  font-weight:700;
+}
+p{margin:0 0 20px;color:var(--text-dim)}
+p.lead{color:var(--text)}
+.rule{height:1px;background:var(--glass-border);border:0;margin:0}
+
+/* 朝の流れ */
+ol.flow{list-style:none;counter-reset:s;margin:0;padding:0}
+ol.flow li{
+  counter-increment:s;
+  position:relative;
+  padding:0 0 26px 54px;
+  color:var(--text-dim);
+}
+ol.flow li::before{
+  content:counter(s);
+  position:absolute;left:0;top:1px;
+  width:34px;height:34px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:var(--glass);
+  color:var(--accent);
+  font-size:14px;
+  font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  line-height:1;
+}
+ol.flow li b{color:var(--text);font-weight:600;display:block}
+ol.flow li:last-child{padding-bottom:0}
+
+/* カード */
+.card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  padding:28px 24px;
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+}
+.card h3{margin:0 0 12px;font-size:18px;font-weight:700}
+.card p:last-child{margin-bottom:0}
+.card + .card{margin-top:16px}
+
+/* 数字の強調（10秒） */
+.ten{
+  font-size:clamp(64px,22vw,120px);
+  line-height:1;
+  color:var(--accent);
+  font-weight:800;
+  letter-spacing:-.04em;
+  margin:0 0 8px;
+}
+.ten span{font-size:.3em;letter-spacing:0;margin-left:.1em}
+
+/* こんな人に */
+ul.checks{list-style:none;margin:0;padding:0}
+ul.checks li{
+  position:relative;
+  padding:0 0 14px 28px;
+  color:var(--text-dim);
+}
+ul.checks li::before{
+  content:"";
+  position:absolute;left:4px;top:12px;
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+/* 価格 */
+.price{font-size:34px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.price small{font-size:15px;font-weight:600;color:var(--text-dim);margin-left:6px;letter-spacing:0}
+
+footer{
+  padding:8vh 0 12vh;
+  border-top:1px solid var(--glass-border);
+  color:var(--text-faint);
+  font-size:14px;
+}
+footer a{color:var(--text-dim);text-decoration:none;border-bottom:1px solid var(--glass-border)}
+footer a:hover{color:var(--accent)}
+footer p{color:var(--text-faint);margin-bottom:12px}
+.links{display:flex;flex-wrap:wrap;gap:20px;margin:0 0 24px;padding:0;list-style:none}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">ASAZORA</p>
+    <h1>目覚ましは鳴った。<br>そこから<span class="cy">10秒</span>で、<br>ベッドを出る。</h1>
+    <p class="lede">asazora は、目覚ましを鳴らすアプリではありません。<strong>鳴ったあとの10秒を、二度寝ではなく「立つ」に変えるアプリ</strong>です。</p>
+    <a class="btn btn-primary" href="#join">テストに参加する</a>
+    <a class="btn btn-ghost" href="#paid">有料版のお知らせを受け取る</a>
+    <p class="btn-note">いまはAndroidのテスト配布のみです。iPhone版は準備中で、使えるようになったらメールでお知らせします。</p>
+  </div>
+</header>
+
+<hr class="rule">
+
+<main>
+
+<section>
+  <div class="wrap">
+    <p class="ten">10<span>秒</span></p>
+    <h2>起きた直後に、考えさせない</h2>
+    <p class="lead">起きた直後は、一日でいちばん判断力の無い時間です。</p>
+    <p>それなのに多くのアプリは、朝いちばんに「今日は何をする？」と聞いてきます。asazora が朝あなたに求めるのは、画面を開くことだけ。10秒のカウントダウンが終わるまでに、ベッドから足を下ろす。それだけです。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>朝の10秒から、<br>長くても16分まで</h2>
+    <ol class="flow">
+      <li><b>設定した時刻に、通知が出る</b>「10秒だけ。開いて、立つだけ。」</li>
+      <li><b>開くと10秒のカウントダウン</b>数えている間に、ベッドを出ます</li>
+      <li><b>立ってから、今朝の調子を3つから選ぶ</b>ベッドの中では何も聞きません</li>
+      <li><b>今日のメニューが自動で決まる</b>あなたは選びません</li>
+      <li><b>最初のタスクは「カーテンを開ける」</b>最初の「できた」が10秒で来ます</li>
+      <li><b>残りが順番に流れる</b>合計5分・10分・15分から選べます</li>
+    </ol>
+    <p style="margin-top:28px">最短2〜3分で終わります。<strong style="color:var(--text)">早く終わることは、このアプリでは良いことです。</strong></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>続かなかった自分を、<br>責めさせない</h2>
+    <div class="card">
+      <h3>調子が悪い朝は、勝手に短くなる</h3>
+      <p>「今日は無理だ」という朝は、メニューが自動で短くなります。カーテンを開けるだけでも、できた朝です。</p>
+    </div>
+    <div class="card">
+      <h3>連続記録は、途切れません</h3>
+      <p>何日続いたかを数えて、途切れた日に赤字を出すことはしません。できなかった日を責める表示はありません。</p>
+    </div>
+    <div class="card">
+      <h3>夜は、何も通知しません</h3>
+      <p>通知は朝だけ。夜にアプリを開かせることはしません。一日の終わりに、意志力を使わせないためです。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>5人が、静かに見ている</h2>
+    <p class="lead">同じころに起きる5人と、朝の写真だけを送り合います。</p>
+    <p>撮るのは顔ではなく、カーテンを開けた窓の外。コメントもありません。<strong style="color:var(--text)">励まし合わなくていい。いるだけでいい。</strong></p>
+    <p>チームは自動で決まります。部屋を選ぶ手間はありません。写真の撮影は任意で、投稿したものは同じチームの5人にだけ見え、30日を過ぎたら消えます。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>こんな人に作りました</h2>
+    <ul class="checks">
+      <li>目覚ましは鳴っているのに、そのまま二度寝してしまう</li>
+      <li>朝活を始めては、1〜2ヶ月で続かなくなる</li>
+      <li>続かなかった自分を責めるのに疲れた</li>
+      <li>朝の時間を、長くではなく、確実に使いたい</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="join">
+  <div class="wrap">
+    <h2>テストに参加する</h2>
+    <p>いまはAndroidのテスト配布をしています。参加すると、朝の通しを実際に使ってもらい、感想を聞かせてもらいます。<strong style="color:var(--text)">人数を絞って一人ずつご案内している</strong>ので、登録後にこちらからメールを差し上げます。</p>
+    <p>Google Play で使っている <strong style="color:var(--text)">Googleアカウントのメールアドレス</strong>（Gmailなど）が必要です。@icloud.com や @docomo.ne.jp などではテスターになれません。</p>
+    <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSctUfe6soJy6VYiFwO-6R34TzIcpuHMN7pLC-8OYsaSNLHOUg/viewform" target="_blank" rel="noopener">参加フォームを開く</a>
+    <p class="btn-note">入力は1分ほどです。案内メールの到着まで数日いただくことがあります。</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="paid">
+  <div class="wrap">
+    <h2>有料版について</h2>
+    <p class="price">月980円<small>で提供予定</small></p>
+    <p>いまは課金を受け付けていません。使えるようになったら、メールでお知らせします。<strong style="color:var(--text)">登録しても、この時点で料金は発生しません。</strong></p>
+    <a class="btn btn-ghost" href="https://docs.google.com/forms/d/e/1FAIpQLSeQR8kTQ1gI83jnXGpF7_khRro9N38dkZQCOT_aqUN8QO_jBA/viewform" target="_blank" rel="noopener">お知らせを受け取る</a>
+    <p class="btn-note">メールアドレスと、価格についての質問を2つだけ伺います。お知らせ以外の用途には使いません。</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="links">
+      <li><a href="/privacy/">プライバシーポリシー</a></li>
+      <li><a href="mailto:support@asazora.com">support@asazora.com</a></li>
+    </ul>
+    <p>「意志力を使わずに、一日を『できた』から始める」</p>
+    <p>asazora development</p>
+  </div>
+</footer>
+
+</body>
+</html>
