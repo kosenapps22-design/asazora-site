@@ -11,6 +11,7 @@ LP・プライバシーポリシー・PCでメールを開かれた時の受け�
 | `privacy/index.html` | `https://asazora.com/privacy/` | プライバシーポリシー。原稿は `../policy/privacy-policy-draft.md` |
 | `terms/index.html` | `https://asazora.com/terms/` | 利用規約。**先頭に「asazora は目覚ましではない」を置いている**（通知が遅れて起きられなくても責任を負わないこと）。アプリの登録画面の同意文からリンクされている |
 | `confirmed/index.html` | `https://asazora.com/confirmed/` | Supabase の確認メール・再設定メールをPCで開かれた時の受け皿 |
+| `ga.js` | `https://asazora.com/ga.js` | Google Analytics 4。測定 ID を1か所入れると動く（未入力なら何もしない）。ページ表示と LP の2つのボタン（`a[data-ga]`）のクリックを計測。ポリシーの「12. このサイトのアクセス解析について」とセット |
 | `robots.txt` | `https://asazora.com/robots.txt` | 検索エンジン向け。`/confirmed/` だけ除外し、サイトマップの場所を教える |
 | `sitemap.xml` | `https://asazora.com/sitemap.xml` | 検索エンジンに載せたい3ページ（LP・プライバシーポリシー・利用規約）。ページを足したらここにも足す |
 | `CNAME` | — | GitHub Pages に独自ドメインを教えるファイル。中身は `asazora.com` の1行だけ |
@@ -29,6 +30,7 @@ LP・プライバシーポリシー・PCでメールを開かれた時の受け�
 | `index.html` テスト参加ボタン | [テスター参加のアンケート](https://docs.google.com/forms/d/e/1FAIpQLSctUfe6soJy6VYiFwO-6R34TzIcpuHMN7pLC-8OYsaSNLHOUg/viewform) |
 | `index.html` 有料版ボタン | [有料機能実装へのアンケート](https://docs.google.com/forms/d/e/1FAIpQLSeQR8kTQ1gI83jnXGpF7_khRro9N38dkZQCOT_aqUN8QO_jBA/viewform) |
 | `privacy/index.html` 制定日 | 2026年9月20日 |
+| `ga.js` 測定 ID | **未入力**（`__GA_MEASUREMENT_ID__`）。GA4 のデータストリームの測定 ID（`G-…`）を入れる |
 
 未入力のプレースホルダが残っていないかの確認:
 
