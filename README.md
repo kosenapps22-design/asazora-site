@@ -30,7 +30,7 @@ LP・プライバシーポリシー・PCでメールを開かれた時の受け�
 | `index.html` テスト参加ボタン | [テスター参加のアンケート](https://docs.google.com/forms/d/e/1FAIpQLSctUfe6soJy6VYiFwO-6R34TzIcpuHMN7pLC-8OYsaSNLHOUg/viewform) |
 | `index.html` 有料版ボタン | [有料機能実装へのアンケート](https://docs.google.com/forms/d/e/1FAIpQLSeQR8kTQ1gI83jnXGpF7_khRro9N38dkZQCOT_aqUN8QO_jBA/viewform) |
 | `privacy/index.html` 制定日 | 2026年9月20日 |
-| `ga.js` 測定 ID | **未入力**（`__GA_MEASUREMENT_ID__`）。GA4 のデータストリームの測定 ID（`G-…`）を入れる |
+| `ga.js` 測定 ID | `G-4BQ9GW8NZM`（GA4 プロパティ `asazora.com` のウェブストリーム。2026-09-15） |
 
 未入力のプレースホルダが残っていないかの確認:
 

@@ -5,7 +5,7 @@
   プライバシーポリシー「12. このサイトのアクセス解析について」とセット。
 */
 (function () {
-  var ID = "__GA_MEASUREMENT_ID__";
+  var ID = "G-4BQ9GW8NZM";
   if (!/^G-[A-Z0-9]+$/.test(ID)) return;
 
   window.dataLayer = window.dataLayer || [];
