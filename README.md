@@ -1,8 +1,7 @@
 # asazora.com のサイト
 
 LP・プライバシーポリシー・PCでメールを開かれた時の受け皿の3つを、`asazora.com` に置く静的サイト。
-判断の根拠は Addness ゴール「LPとメール登録の導線を作る」
-https://www.addness.com/goals/8196d391-45fb-4bd3-867c-c09d6069d695
+判断の根拠はゴール「LPとメール登録の導線を作る」（`goals/8196d391 …`）。検索に載せる作業はゴール「asazora.com を Google 検索に載せる」
 
 ## 中身
 
@@ -12,6 +11,8 @@ https://www.addness.com/goals/8196d391-45fb-4bd3-867c-c09d6069d695
 | `privacy/index.html` | `https://asazora.com/privacy/` | プライバシーポリシー。原稿は `../policy/privacy-policy-draft.md` |
 | `terms/index.html` | `https://asazora.com/terms/` | 利用規約。**先頭に「asazora は目覚ましではない」を置いている**（通知が遅れて起きられなくても責任を負わないこと）。アプリの登録画面の同意文からリンクされている |
 | `confirmed/index.html` | `https://asazora.com/confirmed/` | Supabase の確認メール・再設定メールをPCで開かれた時の受け皿 |
+| `robots.txt` | `https://asazora.com/robots.txt` | 検索エンジン向け。`/confirmed/` だけ除外し、サイトマップの場所を教える |
+| `sitemap.xml` | `https://asazora.com/sitemap.xml` | 検索エンジンに載せたい3ページ（LP・プライバシーポリシー・利用規約）。ページを足したらここにも足す |
 | `CNAME` | — | GitHub Pages に独自ドメインを教えるファイル。中身は `asazora.com` の1行だけ |
 | `.nojekyll` | — | GitHub Pages の Jekyll 処理を止める（素のHTMLをそのまま出す） |
 
