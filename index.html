@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>asazora — 二度寝しない朝の10秒</title>
-<meta name="description" content="目覚ましが鳴ったあと、二度寝せずにベッドを出るための10秒。起きた直後に考えることは何もありません。">
-<meta property="og:title" content="asazora — 二度寝しない朝の10秒">
-<meta property="og:description" content="目覚ましが鳴ったあと、二度寝せずにベッドを出るための10秒。起きた直後に考えることは何もありません。">
+<title>asazora — 撮るまで止まらない目覚まし</title>
+<meta name="description" content="整えたベッドの写真を撮るまで止まらないアラーム。止めた1枚が、同じころに起きる5人への朝の1枚になります。起きた直後に考えることは、何もありません。">
+<meta property="og:title" content="asazora — 撮るまで止まらない目覚まし">
+<meta property="og:description" content="整えたベッドの写真を撮るまで止まらないアラーム。止めた1枚が、同じころに起きる5人への朝の1枚になります。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://asazora.com/">
 <link rel="canonical" href="https://asazora.com/">
 <meta name="google-site-verification" content="1h4h6r6MJhxcDNeOdJpcgQcoj2LuksCHx38ugHezBxo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#000000">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='18' font-weight='700' text-anchor='middle' fill='%2300FFFF' font-family='sans-serif'%3E10%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23000'/%3E%3Ccircle cx='16' cy='17' r='7' fill='%2300FFFF'/%3E%3Crect x='6' y='23' width='20' height='2' rx='1' fill='%2300FFFF'/%3E%3C/svg%3E">
 <style>
 /*
   デザイントークンはアプリの app/src/constants/theme.ts に合わせる（変更禁止の取り決め）。
@@ -151,27 +151,55 @@ h1 .cy{text-shadow:0 0 28px rgba(0,255,255,.45)}
 .phone .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:84px;height:24px;border-radius:14px;background:#0b0b0b;border:1px solid rgba(255,255,255,.06)}
 .phone .body{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:18px}
 
-/* ⓪ 起き上がり */
-.wake .body{align-items:center;text-align:center}
-.wake .t{font-size:19px;font-weight:700;color:var(--text)}
-.wake .s{font-size:12px;color:var(--text-2);margin-top:6px}
-.wake .count{display:flex;align-items:baseline;gap:6px;margin-top:26px}
-.wake .count b{
-  font-size:96px;line-height:1;font-weight:700;color:var(--accent);
-  text-shadow:0 0 34px rgba(0,255,255,.7),0 0 4px rgba(0,255,255,.9);
-  min-width:1.1em;text-align:center;transition:opacity .25s ease,transform .25s ease;
+/* ⓪ 停止ミッション（アラームが鳴っている画面。文言はアプリの ja.ts と同じ） */
+.mission .screen{padding:14px 16px 18px}
+.mission .body{justify-content:flex-start;align-items:center;text-align:center;padding-top:22px}
+.mission .clock{font-size:44px;line-height:1;font-weight:700;color:var(--accent);text-shadow:0 0 30px rgba(0,255,255,.7),0 0 4px rgba(0,255,255,.9)}
+.mission .t{font-size:17px;font-weight:700;color:var(--text);margin-top:10px}
+.mission .s{font-size:11px;color:var(--text-2);margin-top:4px;min-height:16px;transition:color .3s ease}
+.mission .s.ok{color:var(--accent);font-weight:700}
+.mission .finder{
+  position:relative;width:100%;flex:1;min-height:150px;margin-top:14px;border-radius:14px;
+  border:2px solid var(--accent);box-shadow:0 0 18px rgba(0,255,255,.35);overflow:hidden;
+  transition:opacity .3s ease,box-shadow .3s ease;
 }
-.wake .count b.tick{opacity:.55;transform:translateY(-3px)}
-.wake .count span{font-size:16px;color:var(--text-2)}
-.wake .track{width:100%;height:4px;border-radius:999px;background:var(--divider);margin-top:30px;overflow:hidden}
-.wake .fill{height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .95s linear;box-shadow:0 0 12px rgba(0,255,255,.8)}
-.wake .fill.reset{transition:none}
+.mission .finder.dim{opacity:.5}
+.mission .finder.ok{box-shadow:0 0 36px rgba(0,255,255,.8)}
+.mission .cap{
+  width:100%;margin-top:12px;padding:13px 10px;border-radius:999px;
+  background:var(--accent);color:var(--on-accent);font-weight:700;font-size:14px;text-align:center;
+  transition:opacity .3s ease;
+}
+.mission .cap.busy{opacity:.55}
+.mission .hold{margin-top:9px;font-size:9px;color:var(--text-3)}
+
+/* 整えたベッドの写真（画像ファイル無し。CSS だけで描く：壁・枕・シーツ） */
+.bed-photo{position:relative;overflow:hidden;background:linear-gradient(180deg,#232a35 0%,#2f3947 34%,#8b97a8 34.5%,#c3cbd6 100%)}
+.bed-photo::before{content:"";position:absolute;left:14%;right:14%;top:38%;height:20%;border-radius:20% / 45%;background:#eef1f5;box-shadow:0 4px 8px rgba(0,0,0,.25)}
+.bed-photo::after{content:"";position:absolute;left:0;right:0;top:66%;height:3px;background:rgba(255,255,255,.55)}
+.bed-photo.b{background:linear-gradient(180deg,#2a2530 0%,#3a3342 34%,#a39aa7 34.5%,#d4cdd6 100%)}
+.bed-photo.b::before{background:#f4f0f5}
+
+/* 今朝の調子の顔（アプリの MoodFace と同じ3色） */
+.faces{display:flex;gap:7px;margin-top:8px}
+.faces div{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:11px 2px 9px;
+  border-radius:12px;border:1px solid var(--input-border);background:var(--input-fill);
+  font-size:9px;color:var(--text);font-weight:500;
+}
+.faces div.on{border-color:var(--accent);background:var(--glass);color:var(--accent);font-weight:700;box-shadow:var(--glow-soft)}
+.face{position:relative;width:30px;height:30px;border-radius:50%}
+.face.y{background:#FFD84D}.face.g{background:#5DD39E}.face.b{background:#5B9CFF}
+.face::before{content:"";position:absolute;left:8px;top:10px;width:4px;height:4px;border-radius:50%;background:#111;box-shadow:10px 0 0 #111}
+.face::after{content:"";position:absolute;left:9px;top:16px;width:12px;height:7px;box-sizing:border-box;border:2px solid #111;border-top:0;border-radius:0 0 12px 12px}
+.face.g::after{height:2px;top:20px;left:10px;width:10px;border:0;background:#111;border-radius:2px}
+.face.b::after{top:19px;border-top:2px solid #111;border-bottom:0;border-radius:12px 12px 0 0}
 
 /* ① ホーム */
 .home .body{justify-content:flex-start;gap:14px;padding-top:10px}
 .home .date{font-size:10px;color:var(--text-2);text-align:center}
 .home .brand{font-size:22px;font-weight:700;letter-spacing:.28em;color:var(--accent);text-align:center;text-shadow:0 0 18px rgba(0,255,255,.6);margin-top:-8px}
-.home .label{font-size:12px;font-weight:700;color:var(--text)}
+.home .label{font-size:15px;font-weight:700;color:var(--text)}
 .home .cond{display:flex;gap:6px;margin-top:6px}
 .home .cond div{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 2px;
@@ -184,13 +212,12 @@ h1 .cy{text-shadow:0 0 28px rgba(0,255,255,.45)}
 .home .mode{font-size:16px;font-weight:700;color:var(--accent);text-shadow:0 0 12px rgba(0,255,255,.5)}
 .home .sum{font-size:9px;color:var(--text-2);margin-top:2px}
 .home .msg{font-size:11px;color:var(--text);margin-top:8px;line-height:1.5}
-.home .start{display:flex;flex-direction:column;align-items:center;gap:8px;margin:4px 0 2px}
+.home .start{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto 0 8px}
 .home .start b{
-  width:96px;height:96px;border-radius:50%;background:var(--accent);color:var(--on-accent);
-  display:flex;align-items:center;justify-content:center;font-size:16px;letter-spacing:.2em;font-weight:700;
+  width:128px;height:128px;border-radius:50%;background:var(--accent);color:var(--on-accent);
+  display:flex;align-items:center;justify-content:center;font-size:20px;letter-spacing:.2em;font-weight:700;
   box-shadow:var(--glow-strong);animation:breathe 3.2s ease-in-out infinite;
 }
-.home .start span{font-size:9px;color:var(--text-2)}
 @keyframes breathe{0%,100%{box-shadow:0 0 34px rgba(0,255,255,.45)}50%{box-shadow:0 0 56px rgba(0,255,255,.75)}}
 .team-row{display:flex;justify-content:space-between;gap:4px}
 .team-row .seat{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9px;color:var(--text-2)}
@@ -206,11 +233,11 @@ h1 .cy{text-shadow:0 0 28px rgba(0,255,255,.45)}
 .gcard .head b{font-size:12px;color:var(--accent)}
 
 /* ④ チーム */
-.feed .body{justify-content:flex-start;gap:10px;padding-top:10px}
+.feed .body{justify-content:flex-start;gap:8px;padding-top:8px}
 .feed .title{display:flex;justify-content:space-between;align-items:baseline}
 .feed .title b{font-size:15px;font-weight:700}
 .feed .title span{font-size:11px;color:var(--accent);font-weight:700}
-.pcard{border-radius:14px;border:1px solid var(--glass-border);background:var(--glass);padding:10px}
+.pcard{border-radius:14px;border:1px solid var(--glass-border);background:var(--glass);padding:8px 9px}
 .pcard .who{display:flex;align-items:center;gap:8px;font-size:11px}
 .pcard .who b{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:none}
 .pcard .who b.pend{background:var(--input-fill);border:1px solid var(--input-border);color:var(--text)}
@@ -224,8 +251,10 @@ h1 .cy{text-shadow:0 0 28px rgba(0,255,255,.45)}
 .sky-photo::before{left:50%;top:0;bottom:0;width:6px;transform:translateX(-50%)}
 .sky-photo::after{top:46%;left:0;right:0;height:6px}
 .sky-photo i{position:absolute;left:10px;top:10px;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.6);filter:blur(1px)}
-.pcard .stamp{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 10px;border-radius:999px;border:1px solid var(--input-border);font-size:10px;color:var(--text-2)}
-.pcard .stamp.on{border-color:var(--accent);color:var(--accent)}
+.pcard .stamp{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 9px;border-radius:999px;border:1px solid var(--input-border);font-size:10px;color:var(--text-2)}
+.pcard .stamp.on{border-color:var(--accent);background:var(--accent);color:var(--on-accent);font-weight:700}
+.pcard .shot{aspect-ratio:3/2;border-radius:9px;margin-top:6px}
+.pcard .got{margin-top:8px;font-size:10px;color:var(--text)}
 
 /* ───────── セクション共通 ───────── */
 section{padding:clamp(72px,11vh,120px) 0}
@@ -237,9 +266,10 @@ p.lead{color:var(--text);font-size:clamp(16px,4.2vw,18px)}
 p strong{color:var(--text);font-weight:600}
 .two{display:grid;grid-template-columns:1fr;gap:36px;align-items:center}
 
-/* 10秒 */
+/* 止めるボタンは 0個 */
 .ten{font-size:clamp(88px,26vw,168px);line-height:.95;color:var(--accent);font-weight:800;letter-spacing:-.05em;margin:0 0 6px;text-shadow:0 0 60px rgba(0,255,255,.35)}
 .ten span{font-size:.24em;letter-spacing:0;margin-left:.15em;font-weight:700}
+.tenlabel{color:var(--text-2);font-size:15px;margin:10px 0 0;letter-spacing:.06em}
 .tenline{height:2px;width:100%;max-width:280px;background:var(--divider);position:relative;overflow:hidden;margin:18px 0 0;border-radius:999px}
 .tenline::after{content:"";position:absolute;inset:0;width:0;background:var(--accent);box-shadow:0 0 14px rgba(0,255,255,.8);transition:width 1.6s cubic-bezier(.2,.7,.2,1)}
 .in .tenline::after{width:100%}
@@ -281,15 +311,23 @@ ol.flow li b{color:var(--text);font-weight:700;display:block;font-size:16px}
 .card h3{margin:0 0 10px;font-size:18px;font-weight:700;line-height:1.5}
 .card p{margin:0;font-size:15px}
 
-/* チーム（LP用の大きい表示） */
-.team-big{padding:28px 24px}
-.team-big .team-row .seat b{width:52px;height:52px;font-size:18px}
-.team-big .team-row .seat{font-size:12px}
-.team-big .gcard-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
-.team-big .gcard-head span{font-size:13px;color:var(--text-2)}
-.team-big .gcard-head b{font-size:20px;color:var(--accent)}
-.team-big .foot{margin-top:18px;font-size:13px;color:var(--text-2);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.team-big .foot b{color:var(--accent);font-weight:700}
+/* チーム（LP用の大きい表示：5人の名簿。写真・休み・まだ） */
+.roster{padding:24px 22px}
+.roster .gcard-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.roster .gcard-head span{font-size:13px;color:var(--text-2)}
+.roster .gcard-head b{font-size:20px;color:var(--accent)}
+.roster ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.roster li{
+  display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;
+  border:1px solid var(--divider);background:var(--input-fill);font-size:14px;color:var(--text);
+}
+.roster li .nm{font-weight:700;min-width:3.6em}
+.roster li .tm{color:var(--text-2);font-size:12px}
+.roster li .thumb{width:60px;aspect-ratio:3/2;border-radius:6px;flex:none}
+.roster li .st{margin-left:auto;font-size:13px;color:var(--text-2)}
+.roster li .st.sun{color:var(--accent);font-weight:700}
+.roster li.pend .nm,.roster li.rest .nm{color:var(--text-2)}
+.roster .foot{margin-top:16px;font-size:13px;color:var(--text-2)}
 
 /* こんな人に */
 ul.checks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:12px}
@@ -370,26 +408,27 @@ footer .mark{font-size:13px;border:0}
 <header class="hero" id="top">
   <div class="wrap">
     <div>
-      <p class="eyebrow">朝活アプリ · ANDROID テスト配布中</p>
-      <h1>目覚ましは鳴った。<br>そこから<span class="cy">10秒</span>で、<br>ベッドを出る。</h1>
-      <p class="lede">asazora は、目覚ましを鳴らすアプリではありません。<strong>鳴ったあとの10秒を、二度寝ではなく「立つ」に変えるアプリ</strong>です。</p>
+      <p class="eyebrow">起こす朝活アプリ · ANDROID テスト配布中</p>
+      <h1>アラームは、<br><span class="cy">撮る</span>まで<br>止まらない。</h1>
+      <p class="lede">asazora は、目覚ましそのものです。<strong>止める方法はひとつ。ベッドから出て、整えたベッドを撮る。</strong>起きた直後に考えることは、何もありません。</p>
       <div class="actions">
         <a class="btn btn-primary" href="#join">テストに参加する</a>
         <a class="btn btn-ghost" href="#paid">有料版のお知らせを受け取る</a>
       </div>
-      <p class="note">いまは <b>Android のテスト配布のみ</b>です。iPhone 版は準備中で、使えるようになったらメールでお知らせします。</p>
+      <p class="note">いまは <b>Android のテスト配布のみ</b>です。iPhone 版は準備中で、使えるようになったらメールでお知らせします（iPhone では通知で開く形になるため、目覚ましの併用が要ります）。</p>
     </div>
 
-    <div class="phone-stage" role="img" aria-label="アプリの起き上がり画面。10秒のカウントダウンが動いている">
-      <div class="phone wake">
+    <div class="phone-stage" role="img" aria-label="アプリの停止ミッション画面。アラームが鳴っていて、整えたベッドを撮ると止まる">
+      <div class="phone mission">
         <div class="island" aria-hidden="true"></div>
         <div class="screen" aria-hidden="true">
-          <div class="status"><span class="num">6:30</span><span class="dots"><i></i><i></i><i></i></span></div>
           <div class="body">
-            <div class="t">ベッドから出よう</div>
-            <div class="s">考えなくていい。立つだけ。</div>
-            <div class="count"><b class="num" id="count">10</b><span>秒</span></div>
-            <div class="track"><div class="fill" id="fill"></div></div>
+            <div class="clock num">6:30</div>
+            <div class="t">ベッドを整えて、撮る</div>
+            <div class="s" id="m-sub">止めるには、撮る。</div>
+            <div class="finder bed-photo" id="m-finder"></div>
+            <div class="cap" id="m-cap">写真を撮る</div>
+            <div class="hold">今日は写真をパスする（長押し）</div>
           </div>
         </div>
       </div>
@@ -404,14 +443,16 @@ footer .mark{font-size:13px;border:0}
 <section>
   <div class="wrap two reveal">
     <div>
-      <p class="ten num">10<span>秒</span></p>
+      <p class="ten num">0<span>個</span></p>
+      <p class="tenlabel">止めるボタンの数</p>
       <div class="tenline" aria-hidden="true"></div>
     </div>
     <div>
-      <p class="kicker">なぜ 10 秒か</p>
-      <h2>起きた直後に、<br>考えさせない</h2>
+      <p class="kicker">なぜ止まらないのか</p>
+      <h2>止めるボタンを、<br>置きませんでした</h2>
       <p class="lead">起きた直後は、一日でいちばん判断力の無い時間です。</p>
-      <p>それなのに多くのアプリは、朝いちばんに「今日は何をする？」と聞いてきます。asazora が朝あなたに求めるのは、画面を開くことだけ。10秒のカウントダウンが終わるまでに、ベッドから足を下ろす。それだけです。</p>
+      <p>止めるボタンがあれば、指が勝手に押します。だから asazora のアラームには、止めるボタンがありません。止める方法はひとつだけ。ベッドから出て、整えたベッドを撮ること。アプリが写真を見て、通れば止まります。<strong>頭が起きる前に、体がベッドの外にいます。</strong></p>
+      <p>撮るものは、整えたベッド・畳んだ布団・カーテンを開けた窓から、初回に1つ選びます。整えたベッドには、戻りにくい。</p>
     </div>
   </div>
 </section>
@@ -420,54 +461,44 @@ footer .mark{font-size:13px;border:0}
   <div class="wrap">
     <div class="narrow reveal" style="margin:0 auto;text-align:center">
       <p class="kicker">画面は、これだけ</p>
-      <h2>開く。数える。立つ。<br>あとは流れるだけ。</h2>
+      <h2>撮る。押す。流れる。<br>あとは何もしない。</h2>
     </div>
     <div class="screens reveal">
 
       <figure>
-        <div class="phone wake" role="img" aria-label="起き上がり画面。残り7秒">
-          <div class="island" aria-hidden="true"></div>
-          <div class="screen" aria-hidden="true">
-            <div class="status"><span class="num">6:30</span><span class="dots"><i></i><i></i><i></i></span></div>
-            <div class="body">
-              <div class="t">ベッドから出よう</div>
-              <div class="s">考えなくていい。立つだけ。</div>
-              <div class="count"><b class="num">7</b><span>秒</span></div>
-              <div class="track"><div class="fill" style="width:30%"></div></div>
-            </div>
+        <div class="phone mission" role="img" aria-label="停止ミッション画面。アラームが鳴っていて、整えたベッドを撮ると止まる">
+        <div class="island" aria-hidden="true"></div>
+        <div class="screen" aria-hidden="true">
+          <div class="body">
+            <div class="clock num">6:30</div>
+            <div class="t">ベッドを整えて、撮る</div>
+            <div class="s">止めるには、撮る。</div>
+            <div class="finder bed-photo"></div>
+            <div class="cap">写真を撮る</div>
+            <div class="hold">今日は写真をパスする（長押し）</div>
           </div>
         </div>
-        <figcaption><span class="step">01 起き上がり</span><b>10秒を数えるだけ</b><small>ボタンも選択肢もありません。0になったら勝手に次へ。</small></figcaption>
+        </div>
+        <figcaption><span class="step">01 アラーム</span><b>撮るまで、止まらない</b><small>ボタンは撮影だけ。通ったら勝手に次へ。3回通らなければ通します。</small></figcaption>
       </figure>
 
       <figure>
-        <div class="phone home" role="img" aria-label="ホーム画面。今朝の調子の3択、今日のメニュー、STARTボタン、チームの状況">
+        <div class="phone home" role="img" aria-label="ホーム画面。今朝の調子の3択と、STARTボタン">
           <div class="island" aria-hidden="true"></div>
           <div class="screen" aria-hidden="true">
             <div class="status"><span class="num">6:31</span><span class="dots"><i></i><i></i><i></i></span></div>
             <div class="body">
-              <div class="date">9月15日（火）</div>
+              <div class="date">9月16日（水）</div>
               <div class="brand">ASAZORA</div>
               <div>
                 <div class="label">今朝の調子は？</div>
-                <div class="cond"><div><i>✨</i>Excellent</div><div class="on"><i>☕</i>Normal</div><div><i>💤</i>Low Energy</div></div>
+                <div class="faces"><div><span class="face y"></span>Excellent</div><div class="on"><span class="face g"></span>Normal</div><div><span class="face b"></span>Low Energy</div></div>
               </div>
               <div class="gcard">
                 <div class="mode">10分 いつものモード</div>
                 <div class="sum">3タスク・約10分</div>
-                <div class="msg">いつも通りで。少しだけ短くしておいた。</div>
               </div>
-              <div class="start"><b>START</b><span>ルーティン 開始</span></div>
-              <div class="gcard">
-                <div class="head"><span>チームの状況</span><b>3/5 Ready</b></div>
-                <div class="team-row">
-                  <div class="seat ready"><b>あ</b>Ready</div>
-                  <div class="seat ready"><b>K</b>Ready</div>
-                  <div class="seat ready"><b>M</b>Ready</div>
-                  <div class="seat"><b>Y</b>まだ</div>
-                  <div class="seat empty"><b></b>&nbsp;</div>
-                </div>
-              </div>
+              <div class="start"><b>START</b></div>
             </div>
           </div>
         </div>
@@ -475,29 +506,29 @@ footer .mark{font-size:13px;border:0}
       </figure>
 
       <figure>
-        <div class="phone feed" role="img" aria-label="チーム画面。窓の外の写真が2枚と、まだ起きていない1人">
+        <div class="phone feed" role="img" aria-label="チーム画面。整えたベッドの写真が2枚と、まだ起きていない1人">
           <div class="island" aria-hidden="true"></div>
           <div class="screen" aria-hidden="true">
             <div class="status"><span class="num">6:42</span><span class="dots"><i></i><i></i><i></i></span></div>
             <div class="body">
               <div class="title"><b>今朝のチーム</b><span>3/5 Ready</span></div>
               <div class="pcard">
-                <div class="who"><b>K</b>K<span class="num">6:32</span></div>
-                <div class="sky-photo"><i></i></div>
-                <div class="stamp on">☀️ おはようを送った</div>
+                <div class="who">K<span class="num">6:32</span></div>
+                <div class="shot bed-photo"></div>
+                <div class="stamp on">☀️ おはよう</div>
               </div>
               <div class="pcard">
-                <div class="who"><b>M</b>M<span class="num">6:38</span></div>
-                <div class="sky-photo b"><i></i></div>
+                <div class="who">M<span class="num">6:38</span></div>
+                <div class="shot bed-photo b"></div>
                 <div class="stamp">☀️ おはよう</div>
               </div>
               <div class="pcard">
-                <div class="who"><b class="pend">Y</b>Y<span>まだ</span></div>
+                <div class="who">Y<span>まだ</span></div>
               </div>
             </div>
           </div>
         </div>
-        <figcaption><span class="step">03 チーム</span><b>写真だけ。コメントは無し</b><small>カーテンを開けた窓の外を、同じころに起きる5人と送り合います。</small></figcaption>
+        <figcaption><span class="step">03 チーム</span><b>写真だけ。コメントは無し</b><small>アラームを止めた1枚が、同じころに起きる5人に届きます。</small></figcaption>
       </figure>
 
     </div>
@@ -509,14 +540,14 @@ footer .mark{font-size:13px;border:0}
   <div class="wrap">
     <div class="narrow reveal">
       <p class="kicker">朝の流れ</p>
-      <h2>朝の10秒から、<br>長くても16分まで</h2>
+      <h2>止めた瞬間から、<br>長くても16分まで</h2>
     </div>
     <ol class="flow reveal">
-      <li><b>設定した時刻に、通知が出る</b>「10秒だけ。開いて、立つだけ。」</li>
-      <li><b>開くと10秒のカウントダウン</b>数えている間に、ベッドを出ます</li>
+      <li><b>起床時刻に、asazora が鳴る</b>Android では、asazora 自身がアラームとして鳴ります</li>
+      <li><b>ベッドを整えて、撮る</b>写真が通れば止まります。通らなければ「もう一度」。3回で通します</li>
       <li><b>立ってから、今朝の調子を3つから選ぶ</b>ベッドの中では何も聞きません</li>
       <li><b>今日のメニューが自動で決まる</b>あなたは選びません</li>
-      <li><b>最初のタスクは「カーテンを開ける」</b>最初の「できた」が10秒で来ます</li>
+      <li><b>最初の「できた」は、止めた瞬間</b>ベッドを整えた時点で、1つ目は済んでいます</li>
       <li><b>残りが順番に流れる</b>合計5分・10分・15分から選べます</li>
     </ol>
     <p class="narrow reveal" style="margin-top:28px">最短2〜3分で終わります。<strong>早く終わることは、このアプリでは良いことです。</strong></p>
@@ -533,17 +564,17 @@ footer .mark{font-size:13px;border:0}
       <div class="card">
         <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M4 7h10"/><path d="M4 17h6"/></svg></div>
         <h3>調子が悪い朝は、勝手に短くなる</h3>
-        <p>「今日は無理だ」という朝は、メニューが自動で短くなります。カーテンを開けるだけでも、できた朝です。</p>
+        <p>「今日は無理だ」という朝は、メニューが自動で短くなります。ベッドを整えるだけでも、できた朝です。</p>
       </div>
       <div class="card">
         <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 14c3-6 6-6 9 0s6 6 9 0"/></svg></div>
-        <h3>連続記録は、途切れません</h3>
-        <p>何日続いたかを数えて、途切れた日に赤字を出すことはしません。できなかった日を責める表示はありません。</p>
+        <h3>休む朝は、前の晩に決められる</h3>
+        <p>「明日は休む」を選んだ朝は、アラームは鳴りません。理由は聞きません。何日続いたかを数えて、途切れた日に赤字を出すこともしません。</p>
       </div>
       <div class="card">
         <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M3 3l18 18"/></svg></div>
         <h3>夜は、何も通知しません</h3>
-        <p>通知は朝だけ。夜にアプリを開かせることはしません。一日の終わりに、意志力を使わせないためです。</p>
+        <p>鳴るのは朝だけ。夜にアプリを開かせることはしません。一日の終わりに、意志力を使わせないためです。</p>
       </div>
     </div>
   </div>
@@ -554,20 +585,20 @@ footer .mark{font-size:13px;border:0}
     <div>
       <p class="kicker">弱い責任感</p>
       <h2>5人が、静かに見ている</h2>
-      <p class="lead">同じころに起きる5人と、朝の写真だけを送り合います。</p>
-      <p>撮るのは顔ではなく、カーテンを開けた窓の外。コメントもありません。<strong>励まし合わなくていい。いるだけでいい。</strong></p>
-      <p>チームは自動で決まります。部屋を選ぶ手間はありません。写真の撮影は任意で、投稿したものは同じチームの5人にだけ見え、30日を過ぎたら消えます。</p>
+      <p class="lead">同じころに起きる5人と、朝の1枚だけを送り合います。</p>
+      <p>撮るのは顔ではなく、整えたベッドの面。部屋の全景は写しません。コメントもありません。<strong>励まし合わなくていい。いるだけでいい。</strong></p>
+      <p>チームは、起きる時刻の近い人で自動で決まります。写真は同じチームの5人にだけ見え、30日を過ぎたら消えます。位置情報は、撮った時点で捨てます。</p>
     </div>
-    <div class="card team-big" role="img" aria-label="チームの状況の例。5人のうち3人が起きている">
-      <div class="gcard-head"><span>チームの状況</span><b class="num">3/5 Ready</b></div>
-      <div class="team-row">
-        <div class="seat ready"><b>あ</b>Ready</div>
-        <div class="seat ready"><b>K</b>Ready</div>
-        <div class="seat ready"><b>M</b>Ready</div>
-        <div class="seat"><b>Y</b>まだ</div>
-        <div class="seat empty"><b></b>空き</div>
-      </div>
-      <div class="foot"><span>来なかった人は「まだ」としか出ません</span><b>チームを見る →</b></div>
+    <div class="card roster" role="img" aria-label="今朝のチームの例。5人のうち3人が写真を送り、1人が休み、1人がまだ">
+      <div class="gcard-head"><span>今朝のチーム</span><b class="num">3/5 Ready</b></div>
+      <ul>
+        <li><span class="nm">あなた</span><span class="tm num">6:31</span><span class="thumb bed-photo"></span><span class="st sun">☀️ 2</span></li>
+        <li><span class="nm">K</span><span class="tm num">6:32</span><span class="thumb bed-photo b"></span><span class="st sun">☀️ おはよう</span></li>
+        <li><span class="nm">M</span><span class="tm num">6:38</span><span class="thumb bed-photo"></span><span class="st">☀️ おはよう</span></li>
+        <li class="rest"><span class="nm">Y</span><span class="st">休み</span></li>
+        <li class="pend"><span class="nm">R</span><span class="st">まだ</span></li>
+      </ul>
+      <div class="foot">来なかった人は「まだ」。休む人は「休み」。それだけです。</div>
     </div>
   </div>
 </section>
@@ -579,7 +610,7 @@ footer .mark{font-size:13px;border:0}
       <h2>こんな人に作りました</h2>
     </div>
     <ul class="checks reveal">
-      <li>目覚ましは鳴っているのに、そのまま二度寝してしまう</li>
+      <li>目覚ましを止めて、そのまま二度寝してしまう</li>
       <li>朝活を始めては、1〜2ヶ月で続かなくなる</li>
       <li>続かなかった自分を責めるのに疲れた</li>
       <li>朝の時間を、長くではなく、確実に使いたい</li>
@@ -594,7 +625,7 @@ footer .mark{font-size:13px;border:0}
     <div class="cta main" id="join">
       <p class="kicker">ANDROID テスト配布</p>
       <h2>テストに参加する</h2>
-      <p>いまはAndroidのテスト配布をしています。参加すると、朝の通しを実際に使ってもらい、感想を聞かせてもらいます。<strong>人数を絞って一人ずつご案内している</strong>ので、登録後にこちらからメールを差し上げます。</p>
+      <p>いまはAndroidのテスト配布をしています。参加すると、asazora のアラームで起きる朝を実際に使ってもらい、感想を聞かせてもらいます。<strong>人数を絞って一人ずつご案内している</strong>ので、登録後にこちらからメールを差し上げます。</p>
       <p>Google Play で使っている <strong>Googleアカウントのメールアドレス</strong>（Gmailなど）が必要です。@icloud.com や @docomo.ne.jp などではテスターになれません。</p>
       <div class="grow"></div>
       <a class="btn btn-primary btn-block" data-ga="join-test" href="https://docs.google.com/forms/d/e/1FAIpQLSctUfe6soJy6VYiFwO-6R34TzIcpuHMN7pLC-8OYsaSNLHOUg/viewform" target="_blank" rel="noopener">参加フォームを開く</a>
@@ -604,7 +635,7 @@ footer .mark{font-size:13px;border:0}
     <div class="cta" id="paid">
       <p class="kicker">有料版について</p>
       <p class="price">月980円<small>で提供予定</small></p>
-      <p>いまは課金を受け付けていません。使えるようになったら、メールでお知らせします。<strong>登録しても、この時点で料金は発生しません。</strong></p>
+      <p>有料版では、AI が写真を見て「整えたか」まで判定し、その日の調子と履歴から朝のメニューを組み立てます。いまは課金を受け付けていません。使えるようになったら、メールでお知らせします。<strong>登録しても、この時点で料金は発生しません。</strong></p>
       <div class="grow"></div>
       <a class="btn btn-ghost btn-block" data-ga="paid-notify" href="https://docs.google.com/forms/d/e/1FAIpQLSeQR8kTQ1gI83jnXGpF7_khRro9N38dkZQCOT_aqUN8QO_jBA/viewform" target="_blank" rel="noopener">お知らせを受け取る</a>
       <p class="note">メールアドレスと、価格についての質問を2つだけ伺います。お知らせ以外の用途には使いません。</p>
@@ -661,29 +692,27 @@ footer .mark{font-size:13px;border:0}
     check();
   }
 
-  // ヒーローのスマホ：10 → 0 を繰り返す（アプリの起き上がり画面と同じ動き）
-  var count = document.getElementById("count"), fill = document.getElementById("fill");
-  if (!count || !fill) return;
-  if (reduce) { count.textContent = "7"; fill.style.width = "30%"; return; }
-  var TOTAL = 10, n = TOTAL;
-  function draw(){
-    count.textContent = String(n);
-    fill.style.width = ((TOTAL - n) / TOTAL * 100) + "%";
+  // ヒーローのスマホ：撮る → 見ています… → できた。止まりました。 を繰り返す（アプリの停止ミッション画面と同じ流れ）
+  var sub = document.getElementById("m-sub"), finder = document.getElementById("m-finder"), cap = document.getElementById("m-cap");
+  if (!sub || !finder || !cap || reduce) return;
+  function idle(){
+    sub.textContent = "止めるには、撮る。"; sub.classList.remove("ok");
+    finder.classList.remove("dim", "ok");
+    cap.textContent = "写真を撮る"; cap.classList.remove("busy");
+    setTimeout(judging, 2600);
   }
-  function step(){
-    if (n > 0) {
-      n -= 1;
-      count.classList.add("tick"); setTimeout(function(){ count.classList.remove("tick"); }, 200);
-      draw();
-      setTimeout(step, 1000);
-    } else {
-      setTimeout(function(){
-        fill.classList.add("reset"); n = TOTAL; draw();
-        setTimeout(function(){ fill.classList.remove("reset"); setTimeout(step, 700); }, 30);
-      }, 1400);
-    }
+  function judging(){
+    cap.textContent = "見ています…"; cap.classList.add("busy");
+    finder.classList.add("dim");
+    setTimeout(passed, 1500);
   }
-  draw(); setTimeout(step, 1000);
+  function passed(){
+    finder.classList.remove("dim"); finder.classList.add("ok");
+    sub.textContent = "できた。止まりました。"; sub.classList.add("ok");
+    cap.textContent = "写真を撮る"; cap.classList.remove("busy");
+    setTimeout(idle, 2600);
+  }
+  idle();
 })();
 </script>
 </body>
