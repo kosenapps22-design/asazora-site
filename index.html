@@ -485,7 +485,7 @@ footer .mark{font-size:13px;border:0}
           <div class="screen" aria-hidden="true">
             <div class="status"><span class="num">6:31</span><span class="dots"><i></i><i></i><i></i></span></div>
             <div class="body">
-              <div class="date">9月16日（水）</div>
+              <div class="date" id="m-date">9月16日（水）</div>
               <div class="brand">ASAZORA</div>
               <div>
                 <div class="label">今朝の調子は？</div>
@@ -688,6 +688,10 @@ footer .mark{font-size:13px;border:0}
     window.addEventListener("resize", onReveal);
     check();
   }
+
+  // ホームのモックの日付：開いた日にする（アプリの home.dateFormat と同じ形）
+  var md = document.getElementById("m-date");
+  if (md) { var d = new Date(); md.textContent = (d.getMonth() + 1) + "月" + d.getDate() + "日（" + "日月火水木金土".charAt(d.getDay()) + "）"; }
 
   // ヒーローのスマホ：撮る → 見ています… → できた。止まりました。 を繰り返す（アプリの停止ミッション画面と同じ流れ）
   var sub = document.getElementById("m-sub"), finder = document.getElementById("m-finder"), cap = document.getElementById("m-cap");
