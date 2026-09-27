@@ -12,6 +12,7 @@ LP・プライバシーポリシー・PCでメールを開かれた時の受け�
 | `terms/index.html` | `https://asazora.com/terms/` | 利用規約。**先頭に「asazora は目覚ましではない」を置いている**（通知が遅れて起きられなくても責任を負わないこと）。アプリの登録画面の同意文からリンクされている |
 | `confirmed/index.html` | `https://asazora.com/confirmed/` | Supabase の確認メール・再設定メールをPCで開かれた時の受け皿 |
 | `img/bed.jpg` | `https://asazora.com/img/bed.jpg` | LP に出す整えたベッドの写真（ヒーローのファインダー・チームのカード・名簿のサムネイルで同じ1枚）。オーナーが Google Flow で生成した画像（素材サイトの写真を元にアレンジ）。横 800px・約 74KB。2026-09-16 |
+| `favicon-32.png`・`favicon-192.png`・`apple-touch-icon.png` | `https://asazora.com/favicon-32.png` ほか | サイトのアイコン（ブラウザのタブ・Google 検索・iPhone でホーム画面に追加したとき）。アプリのアイコン「頂の光」と同じ絵。作り直しは `node projects/asazora/tools/icons/make-icons.mjs projects/asazora/site site`（作業場の直下で）。4 ページの `<head>` から読んでいる。2026-09-27 |
 | `ga.js` | `https://asazora.com/ga.js` | Google Analytics 4。測定 ID を1か所入れると動く（未入力なら何もしない）。ページ表示と LP の2つのボタン（`a[data-ga]`）のクリックを計測。ポリシーの「12. このサイトのアクセス解析について」とセット |
 | `robots.txt` | `https://asazora.com/robots.txt` | 検索エンジン向け。`/confirmed/` だけ除外し、サイトマップの場所を教える |
 | `sitemap.xml` | `https://asazora.com/sitemap.xml` | 検索エンジンに載せたい3ページ（LP・プライバシーポリシー・利用規約）。ページを足したらここにも足す |
