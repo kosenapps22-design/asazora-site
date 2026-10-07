@@ -108,7 +108,10 @@ header,main,footer,nav{position:relative;z-index:1}
 }
 .btn:active{transform:scale(.985)}
 .btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:0 0 0 rgba(0,255,255,0)}
-.btn-primary:hover{box-shadow:var(--glow-soft)}
+.btn-primary:hover{box-shadow:var(--glow-strong);transform:translateY(-2px)}
+.btn-primary,.pill{position:relative;overflow:hidden}
+.btn-primary::after,.pill::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .6s ease}
+.btn-primary:hover::after,.pill:hover::after{left:120%}
 .btn-ghost{
   background:var(--glass);border-color:var(--input-border);color:var(--text);
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
@@ -122,6 +125,12 @@ header,main,footer,nav{position:relative;z-index:1}
 /* ───────── ヒーロー ───────── */
 .hero{padding:calc(64px + clamp(48px,9vh,96px)) 0 clamp(40px,6vh,72px)}
 .hero .wrap{display:grid;grid-template-columns:1fr;gap:48px;align-items:center}
+/* スクロールで奥に沈んで消える */
+.hero .wrap>div:first-child{transform:translateY(calc(var(--sy,0) * .28px));opacity:max(0,calc(1 - var(--sy,0) / 520))}
+.hero .phone-stage{transform:translateY(calc(var(--sy,0) * .12px)) scale(max(.8,calc(1 - var(--sy,0) / 2400)));opacity:max(0,calc(1 - var(--sy,0) / 760))}
+/* マウスの位置を照らす */
+.spot{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .6s;background:radial-gradient(520px circle at var(--mx,50%) var(--my,30%),rgba(0,255,255,.09),transparent 60%)}
+.spot.on{opacity:1}
 .eyebrow{
   display:inline-flex;align-items:center;gap:10px;
   color:var(--accent);font-size:12px;letter-spacing:.26em;font-weight:700;margin:0 0 22px;
@@ -329,7 +338,8 @@ h1 .cy{animation:neon 2.4s ease-out .7s both}
 section{padding:clamp(72px,11vh,120px) 0;overflow-x:clip}
 .hero{overflow-x:clip}
 .rule{height:1px;background:var(--divider);border:0;margin:0}
-.kicker{color:var(--accent);font-size:12px;letter-spacing:.24em;font-weight:700;margin:0 0 14px}
+.kicker{color:var(--accent);font-size:12px;letter-spacing:.7em;font-weight:700;margin:0 0 14px;opacity:0;transition:letter-spacing 1.4s cubic-bezier(.2,.7,.2,1),opacity 1s}
+.in .kicker,.stagger.in .kicker{letter-spacing:.24em;opacity:1}
 h2{font-size:clamp(24px,5.6vw,36px);line-height:1.35;margin:0 0 22px;font-weight:700;letter-spacing:-.01em}
 p{margin:0 0 18px;color:var(--text-2)}
 p.lead{color:var(--text);font-size:clamp(16px,4.2vw,18px)}
@@ -337,25 +347,35 @@ p strong{color:var(--text);font-weight:600}
 .two{display:grid;grid-template-columns:1fr;gap:36px;align-items:center}
 
 /* 止めるボタンは 0個 */
-.ten{font-size:clamp(88px,26vw,168px);line-height:.95;color:var(--accent);font-weight:800;letter-spacing:-.05em;margin:0 0 6px;text-shadow:0 0 60px rgba(0,255,255,.35)}
-.ten span{font-size:.24em;letter-spacing:0;margin-left:.15em;font-weight:700}
-.tenlabel{color:var(--text-2);font-size:15px;margin:10px 0 0;letter-spacing:.06em}
+.zero{position:relative}
+.zero .shock{position:absolute;left:0;top:50%;width:160px;height:160px;margin:-80px 0 0 20px;border-radius:50%;border:3px solid var(--accent);opacity:0;pointer-events:none}
+.zero.go .shock{animation:shock 1.4s cubic-bezier(.2,.7,.2,1) both}
+.zero.go .shock:nth-child(2){animation-delay:.18s}
+@keyframes shock{0%{transform:scale(.3);opacity:1}100%{transform:scale(5);opacity:0}}
+.flash{position:fixed;inset:0;background:var(--accent);opacity:0;pointer-events:none;z-index:5}
+.flash.go{animation:flash .7s ease-out both}
+@keyframes flash{0%{opacity:.35}100%{opacity:0}}
+.ten{position:relative;font-size:clamp(150px,38vw,320px);line-height:.9;color:var(--accent);font-weight:900;letter-spacing:-.06em;margin:0 0 6px;text-shadow:0 0 60px rgba(0,255,255,.35)}
+.ten .unit{font-size:.22em;letter-spacing:0;margin-left:.1em;font-weight:800;vertical-align:baseline}
+.ten #count{display:inline-block;min-width:.62em;text-align:center}
+.tenlabel{color:var(--text-2);font-size:clamp(16px,2.2vw,22px);font-weight:700;margin:14px 0 0;letter-spacing:.14em;transition:color .5s,text-shadow .5s,letter-spacing 1s}
+.tenlabel.on{color:var(--text);text-shadow:0 0 18px rgba(0,255,255,.8);letter-spacing:.22em}
 .tenline{height:2px;width:100%;max-width:280px;background:var(--divider);position:relative;overflow:hidden;margin:18px 0 0;border-radius:999px}
 .tenline::after{content:"";position:absolute;inset:0;width:0;background:var(--accent);box-shadow:0 0 14px rgba(0,255,255,.8);transition:width 1.6s cubic-bezier(.2,.7,.2,1)}
 .in .tenline::after{width:100%}
-.ten{transition:text-shadow .4s ease}
-.ten.tick{animation:tick .18s ease-out}
-@keyframes tick{0%{transform:translateY(-10px) scale(1.06);filter:blur(2px)}100%{transform:none;filter:none}}
-.ten.burst{animation:burst 1.6s ease-out both}
-@keyframes burst{0%{text-shadow:0 0 0 rgba(0,255,255,0);transform:scale(1)}25%{text-shadow:0 0 90px rgba(0,255,255,1),0 0 200px rgba(0,255,255,.8),0 0 320px rgba(0,255,255,.4);transform:scale(1.12)}100%{text-shadow:0 0 60px rgba(0,255,255,.35);transform:none}}
-.tenlabel.on{color:var(--accent);transition:color .4s}
+.ten.tick{animation:tick .16s ease-out}
+@keyframes tick{0%{transform:translateY(-14px) skewX(-6deg);filter:blur(3px);text-shadow:-6px 0 0 rgba(255,255,255,.7),6px 0 0 rgba(0,255,255,.9)}100%{transform:none;filter:none}}
+.ten.burst{animation:burst 1.8s cubic-bezier(.2,.7,.2,1) both}
+@keyframes burst{0%{text-shadow:0 0 0 rgba(0,255,255,0);transform:scale(.9)}18%{text-shadow:0 0 120px rgba(0,255,255,1),0 0 260px rgba(0,255,255,.9),0 0 420px rgba(0,255,255,.5);transform:scale(1.28)}45%{transform:scale(.98)}100%{text-shadow:0 0 70px rgba(0,255,255,.45);transform:none}}
 
 /* 3画面 */
 .screens{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px var(--gutter) 24px;margin:0 calc(-1 * var(--gutter));-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .screens::-webkit-scrollbar{display:none}
 .screens{perspective:1400px}
 .screens figure{margin:0;flex:none;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:18px}
-.screens .phone{opacity:0;transform:translateY(110px) translateZ(-160px) rotateY(var(--ry,0deg)) scale(.9);filter:blur(6px);transition:opacity 1s ease,transform 1.4s cubic-bezier(.2,.7,.2,1),filter 1s ease}
+.screens .phone{opacity:0;transform:translateY(140px) translateZ(-220px) rotateY(var(--ry,0deg)) scale(.86);filter:blur(8px);transition:opacity 1s ease,transform 1.5s cubic-bezier(.3,1.3,.4,1),filter 1s ease}
+.screens .screen{filter:brightness(.25);transition:filter 1.2s ease .7s}
+.screens.in .screen{filter:none}
 .screens figure:nth-child(1) .phone{--ry:-38deg}.screens figure:nth-child(2) .phone{transition-delay:.18s}.screens figure:nth-child(3) .phone{--ry:38deg;transition-delay:.36s}
 .screens.in .phone{filter:none}
 .screens figcaption{opacity:0;transform:translateY(16px);transition:opacity .7s ease .5s,transform .7s ease .5s}
@@ -460,7 +480,7 @@ footer .mark{font-size:13px;border:0}
 .reveal.from-left{transform:translateX(-110px)}
 .reveal.from-right{transform:translateX(110px)}
 .reveal.in{opacity:1;transform:none;filter:none}
-.stagger>*{opacity:0;transform:translateY(56px) scale(.94);filter:blur(8px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1),filter .8s ease}
+.stagger>*{opacity:0;transform:translateY(64px) scale(.92);filter:blur(8px);transition:opacity .8s ease,transform 1s cubic-bezier(.3,1.4,.5,1),filter .8s ease}
 .stagger.in>*{opacity:1;transform:none;filter:none}
 /* 見出しの下の線が伸びる */
 h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-radius:2px;background:linear-gradient(90deg,var(--accent),rgba(0,255,255,0));box-shadow:0 0 16px rgba(0,255,255,.7);transition:width 1.2s cubic-bezier(.2,.7,.2,1) .35s}
@@ -469,14 +489,15 @@ h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-rad
 /* メッセージの帯：スクロールに合わせて輪郭から塗りつぶされる（--p は JS が 0〜1 で入れる） */
 .band{padding:clamp(48px,10vh,110px) 0;overflow:hidden}
 .band p{margin:0;text-align:center;font-weight:800;font-size:clamp(38px,9.5vw,124px);line-height:1.15;letter-spacing:calc(.3em - var(--p,0) * .34em);transform:scale(calc(.72 + var(--p,0) * .28));opacity:calc(.2 + var(--p,0) * .8);color:transparent;-webkit-text-stroke:1px rgba(0,255,255,.55);background:linear-gradient(90deg,var(--accent) 0 50%,transparent 50% 100%);background-size:200% 100%;background-position:calc(100% - var(--p,0) * 100%) 0;-webkit-background-clip:text;background-clip:text;will-change:transform,letter-spacing}
+.band p{filter:drop-shadow(0 0 calc(var(--p,0) * 28px) rgba(0,255,255,.55))}
 .band small{display:block;text-align:center;margin-top:18px;font-size:14px;letter-spacing:.3em;color:var(--text-2);opacity:var(--p,0);transition:opacity .4s}
-/* 流れる帯 */
-.marquee{overflow:hidden;border-top:1px solid var(--divider);border-bottom:1px solid var(--divider);padding:16px 0;white-space:nowrap;position:relative;z-index:1}
-.marquee div{display:inline-block;animation:marquee 26s linear infinite;font-size:14px;letter-spacing:.32em;color:var(--text-2);font-weight:700}
-.marquee span{margin:0 1.2em}.marquee span::before{content:"◆";color:var(--accent);margin-right:1.6em;font-size:8px;vertical-align:middle;text-shadow:0 0 8px rgba(0,255,255,.8)}
-@keyframes marquee{to{transform:translateX(-50%)}}
+/* 区切り線：画面に入ると中央から伸びる */
+.rule{transform:scaleX(0);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.rule.in{transform:none}
+.rule{background:linear-gradient(90deg,transparent,rgba(0,255,255,.5),transparent)}
 .stagger>*:nth-child(2){transition-delay:.12s}.stagger>*:nth-child(3){transition-delay:.24s}.stagger>*:nth-child(4){transition-delay:.36s}.stagger>*:nth-child(5){transition-delay:.48s}.stagger>*:nth-child(6){transition-delay:.6s}
 .no-io .reveal,.no-io .stagger>*,.no-io .screens .phone,.no-io .screens figcaption{opacity:1;transform:none;filter:none}
+.no-io .kicker{opacity:1;letter-spacing:.24em}.no-io .rule{transform:none}
 [id]{scroll-margin-top:84px}
 
 /* ───────── 広い画面 ───────── */
@@ -504,6 +525,11 @@ h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-rad
   .sky i,.phone-stage .ring{display:none}
   .band p{opacity:1;transform:none;letter-spacing:0;background-position:0 0}
   .in h2::after{width:84px}
+  .kicker{opacity:1;letter-spacing:.24em}
+  .rule{transform:none}
+  .hero .wrap>div:first-child,.hero .phone-stage{transform:none;opacity:1}
+  .screens .screen{filter:none}
+  .spot,.zero .shock{display:none}
 }
 </style>
 <script src="/ga.js" defer></script>
@@ -511,6 +537,8 @@ h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-rad
 <body>
 <div class="sky" aria-hidden="true"><i style="left:8%;top:70%;animation-delay:0s"></i><i style="left:22%;top:85%;animation-delay:3s"></i><i style="left:41%;top:78%;animation-delay:6s"></i><i style="left:63%;top:90%;animation-delay:1.5s"></i><i style="left:77%;top:74%;animation-delay:8s"></i><i style="left:91%;top:82%;animation-delay:4.5s"></i><i style="left:52%;top:95%;animation-delay:10s"></i></div>
 <div class="grain" aria-hidden="true"></div>
+<div class="spot" aria-hidden="true"></div>
+<div class="flash" id="flash" aria-hidden="true"></div>
 
 <nav class="bar" id="bar" aria-label="メイン">
   <div class="wrap">
@@ -558,14 +586,15 @@ h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-rad
   </div>
 </header>
 
-<div class="marquee" aria-hidden="true"><div><span>撮るまで止まらない</span><span>考えなくていい</span><span>責めない</span><span>5人が静かにいる</span><span>撮るまで止まらない</span><span>考えなくていい</span><span>責めない</span><span>5人が静かにいる</span></div></div>
+<hr class="rule">
 
 <main>
 
 <section>
   <div class="wrap two">
-    <div class="reveal from-left">
-      <p class="ten num"><span id="count">5</span><span>個</span></p>
+    <div class="reveal from-left zero" id="zero">
+      <span class="shock" aria-hidden="true"></span><span class="shock" aria-hidden="true"></span>
+      <p class="ten num"><span id="count">5</span><span class="unit">個</span></p>
       <p class="tenlabel">指一本で止まるボタンの数</p>
       <div class="tenline" aria-hidden="true"></div>
     </div>
@@ -833,6 +862,15 @@ h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-rad
     });
     stage.addEventListener("mouseleave", function(){ tilt.style.setProperty("--ty", "0deg"); tilt.style.setProperty("--tx", "0deg"); });
   }
+  // マウスの位置を照らす
+  var spot = document.querySelector(".spot");
+  if (spot && !reduce && window.matchMedia("(pointer: fine)").matches) {
+    document.addEventListener("mousemove", function(e){
+      spot.classList.add("on");
+      spot.style.setProperty("--mx", e.clientX + "px"); spot.style.setProperty("--my", e.clientY + "px");
+    });
+    document.addEventListener("mouseleave", function(){ spot.classList.remove("on"); });
+  }
   if (!reduce && window.matchMedia("(pointer: fine)").matches) {
     Array.prototype.forEach.call(document.querySelectorAll(".card"), function(card){
       card.addEventListener("mousemove", function(e){
@@ -853,10 +891,15 @@ h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-rad
     function step(){
       count.textContent = n;
       ten.classList.remove("tick"); void ten.offsetWidth; ten.classList.add("tick");
-      if (n > 0) { n--; setTimeout(step, 260); }
-      else { ten.classList.add("burst"); if (tenlabel) tenlabel.classList.add("on"); }
+      if (n > 0) { n--; setTimeout(step, n === 0 ? 420 : 200); }
+      else {
+        ten.classList.add("burst"); if (tenlabel) tenlabel.classList.add("on");
+        var zero = document.getElementById("zero"), flash = document.getElementById("flash");
+        if (zero) zero.classList.add("go");
+        if (flash) { flash.classList.remove("go"); void flash.offsetWidth; flash.classList.add("go"); }
+      }
     }
-    setTimeout(step, 350);
+    setTimeout(step, 500);
   }
   if (reduce && count) count.textContent = "0";
 
@@ -865,7 +908,7 @@ h2::after{content:"";display:block;width:0;height:3px;margin-top:16px;border-rad
   if (reduce) {
     document.documentElement.classList.add("no-io");
   } else {
-    var pending = Array.prototype.slice.call(document.querySelectorAll(".reveal, .stagger, .screens"));
+    var pending = Array.prototype.slice.call(document.querySelectorAll(".reveal, .stagger, .screens, .rule"));
     var queued = false;
     function check(){
       queued = false;
