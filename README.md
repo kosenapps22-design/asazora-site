@@ -9,7 +9,7 @@ LP・プライバシーポリシー・PCでメールを開かれた時の受け�
 | --- | --- | --- |
 | `index.html` | `https://asazora.com/` | LP。2つの導線（テスト参加／有料版のお知らせ）。2026-09-16 に v1.2（撮るまで止まらないアラーム）へ本文を書き換え。2026-10-07 に文章を最新の仕様（自動／カスタムモード・休む道は朝のうちに・最大5人・配布の状態・位置情報は使わない）に合わせ、です・ます調に書き直した（ゴール 5dd79ad8）。アラーム・ホーム・チームの3画面を CSS のモックアップで見せる（画像ファイル無し。文言はアプリの `ja.ts` と同じ）。ローカルで見るなら作業場の `.claude/launch.json` の `asazora-site`（http://localhost:8093/） |
 | `privacy/index.html` | `https://asazora.com/privacy/` | プライバシーポリシー。原稿は `../5 公開・ストア・法務/privacy-policy-draft.md` |
-| `terms/index.html` | `https://asazora.com/terms/` | 利用規約。**先頭に「asazora は目覚ましではない」を置いている**（通知が遅れて起きられなくても責任を負わないこと）。アプリの登録画面の同意文からリンクされている |
+| `terms/index.html` | `https://asazora.com/terms/` | 利用規約。**1章に「Android では asazora 自身が鳴る。止めるには選んだ場所の写真を撮る。iPhone は通知だけなので目覚ましを併用」と、鳴らない条件（省電力モード・強制停止・音量ゼロ）を置いている**（鳴らなくて起きられなくても責任を負わないこと）。アプリの登録画面の同意文とセッティングからリンクされている |
 | `confirmed/index.html` | `https://asazora.com/confirmed/` | Supabase の確認メール・再設定メールをPCで開かれた時の受け皿 |
 | `img/bed.jpg` | `https://asazora.com/img/bed.jpg` | LP に出す整えたベッドの写真（ヒーローのファインダー・チームのカード・名簿のサムネイルで同じ1枚）。オーナーが Google Flow で生成した画像（素材サイトの写真を元にアレンジ）。横 800px・約 74KB。2026-09-16 |
 | `favicon-32.png`・`favicon-192.png`・`apple-touch-icon.png` | `https://asazora.com/favicon-32.png` ほか | サイトのアイコン（ブラウザのタブ・Google 検索・iPhone でホーム画面に追加したとき）。アプリのアイコン「頂の光」と同じ絵。作り直しは `node projects/asazora/tools/icons/make-icons.mjs projects/asazora/site site`（作業場の直下で）。4 ページの `<head>` から読んでいる。2026-09-27 |
@@ -31,7 +31,7 @@ LP・プライバシーポリシー・PCでメールを開かれた時の受け�
 | --- | --- |
 | `index.html` テスト参加ボタン | [テスター参加のアンケート](https://docs.google.com/forms/d/e/1FAIpQLSctUfe6soJy6VYiFwO-6R34TzIcpuHMN7pLC-8OYsaSNLHOUg/viewform) |
 | `index.html` 有料版ボタン | [有料機能実装へのアンケート](https://docs.google.com/forms/d/e/1FAIpQLSeQR8kTQ1gI83jnXGpF7_khRro9N38dkZQCOT_aqUN8QO_jBA/viewform) |
-| `privacy/index.html` 制定日 | 2026年9月20日 |
+| `privacy/index.html` 制定日・改定日 | 制定 2026年9月12日・改定 2026年10月7日（9章：アカウントの削除はアプリから） |
 | `ga.js` 測定 ID | `G-4BQ9GW8NZM`（GA4 プロパティ `asazora.com` のウェブストリーム。2026-09-15） |
 
 未入力のプレースホルダが残っていないかの確認:
@@ -175,8 +175,8 @@ push から1〜2分で公開ページが変わる。
 >
 > **リンクを開いてエラーが出たら、数時間おいてからもう一度お試しください。**テスターの追加が反映されるまで、数時間から1日ほどかかることがあります。
 >
-> 入れたら、初期設定で**「アラームとリマインダー」の許可をオンにしてください。**ここをオンにしないと、Android が朝の通知を最大1時間まとめて遅らせてしまい、起きる時間に鳴りません。
+> 入れたら、初期設定で**「通知」「アラームとリマインダー」「全画面通知」の3つをオンにしてください。**オフのままだと、鳴っても画面が出なかったり、時間がずれたりします。強い省電力モード（スーパー バッテリー セーバーなど）のまま寝ると鳴らないので、寝る前に切っておいてください。
 >
-> asazora は、目覚ましを鳴らすアプリではありません。いつもの目覚ましはそのまま使ってください。鳴ったあとに届く通知を開いて、10秒だけ数えてもらえれば、それで十分です。
+> Android では、asazora 自身が起きる時間に鳴ります。いつもの目覚ましは要りません。止めるには、初期設定で選んだ場所（整えたベッドなど）の写真を撮ります。どうしても無理な朝は、画面の下の「今日は写真をパスする」を5秒長押しすると休めます。
 >
 > 合わなければ、いつでも抜けてもらってかまいません。感想は support@asazora.com に一行でも。
