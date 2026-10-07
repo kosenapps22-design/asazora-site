@@ -7,7 +7,7 @@ LP・プライバシーポリシー・PCでメールを開かれた時の受け�
 
 | ファイル | 公開URL | 何のページか |
 | --- | --- | --- |
-| `index.html` | `https://asazora.com/` | LP。2つの導線（テスト参加／有料版のお知らせ）。2026-09-16 に v1.2（撮るまで止まらないアラーム）へ本文を書き換え。アラーム・ホーム・チームの3画面を CSS のモックアップで見せる（画像ファイル無し。文言はアプリの `ja.ts` と同じ）。ローカルで見るなら作業場の `.claude/launch.json` の `asazora-site`（http://localhost:8093/） |
+| `index.html` | `https://asazora.com/` | LP。2つの導線（テスト参加／有料版のお知らせ）。2026-09-16 に v1.2（撮るまで止まらないアラーム）へ本文を書き換え。2026-10-07 に文章を最新の仕様（自動／カスタムモード・休む道は朝のうちに・最大5人・配布の状態・位置情報は使わない）に合わせ、です・ます調に書き直した（ゴール 5dd79ad8）。アラーム・ホーム・チームの3画面を CSS のモックアップで見せる（画像ファイル無し。文言はアプリの `ja.ts` と同じ）。ローカルで見るなら作業場の `.claude/launch.json` の `asazora-site`（http://localhost:8093/） |
 | `privacy/index.html` | `https://asazora.com/privacy/` | プライバシーポリシー。原稿は `../5 公開・ストア・法務/privacy-policy-draft.md` |
 | `terms/index.html` | `https://asazora.com/terms/` | 利用規約。**先頭に「asazora は目覚ましではない」を置いている**（通知が遅れて起きられなくても責任を負わないこと）。アプリの登録画面の同意文からリンクされている |
 | `confirmed/index.html` | `https://asazora.com/confirmed/` | Supabase の確認メール・再設定メールをPCで開かれた時の受け皿 |
